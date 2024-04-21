@@ -565,4 +565,11 @@ FROM EMPLEADO
 -- 8. Mostrar los campos nombres, cantidad de años de permanencia, dirección y cantidad de días
 -- (antigüedad) de la tabla empleado.
 
+SELECT
+	NOMBRES, 
+	DATEDIFF(YEAR, FECHA_INGRESO, GETDATE()) AS CANT_AÑOS,
+	DIRECCION, 
+	DATEDIFF(DAY, FECHA_INGRESO, GETDATE()) AS [ANTIGUEDAD DIAS]
+FROM EMPLEADO
+
 

@@ -490,4 +490,79 @@ SELECT * FROM DETALLEBOLETA
 
 GO
 
- --**********************************REALIZANDO CONSULTAS BÁSICAS*******************************************
+ --**********************************REALIZANDO CONSULTAS*******************************************
+
+ -- 1. Mostrar los campos Num_Boleta, Id_cliente y el día en que se realizó la venta. Mostrar como
+-- nombre de columnas: Número Boleta, Código_cliente y Día de Venta. Utilizar Alias y función DAY.
+SELECT * FROM BOLETA
+
+SELECT B.NUM_BOLETA AS [NUMERO BOLETA], B.ID_CLIENTE AS [CODIGO CLIENTE], DaY(B.FECHA_EMI) AS [DIA DE VENTA] FROM BOLETA as B
+
+
+-- 2. Mostrar todos los campos de la tabla empleado, pero sólo aquellos que hayan sido contratados
+-- (Fecha_ingreso) en el año 2015. Utilizar función YEAR.
+SELECT * FROM EMPLEADO WHERE YEAR(FECHA_INGRESO)=2015
+
+
+-- 3. Mostrar todos los campos de la tabla empleado, pero sólo aquellos que hayan sido contratados
+-- (Fecha_ingreso) en el año 2014 y de estado civil casado y nivel de educación superior.
+SELECT * FROM EMPLEADO
+WHERE
+	YEAR(FECHA_INGRESO)=2014 AND
+	ESTADO_CIVIL='C' AND
+	NIVEL_EDUCA='SUPERIOR'
+
+
+
+-- 4. Mostrar los tres primeros productos cuya categoría sea “C01” y año de vencimiento entre 2018
+-- y 2020 del mes de agosto o mayo. Ordena por el campo Stock en coincidencia con el año de
+-- vencimiento en forma descendente.
+SELECT TOP 3 * FROM PRODUCTO
+WHERE
+	COD_CATE='C01' AND
+	(YEAR(FECHA_VENC) BETWEEN 2018 AND 2020) AND
+	(MONTH(FECHA_VENC) IN (5,8))
+ORDER BY
+	STOCK_ACTUAL ASC,
+	YEAR(FECHA_VENC) DESC
+
+
+-- 5. Mostrar los campos Num_Boleta, Id_cliente, el día, el mes y el año en que se realizó la venta por
+-- separado. Mostrar como nombre de columnas: Número Boleta, Código Cliente, Día de Venta,
+-- mes de venta y Años de venta, sólo aquellas ventas realizadas a partir del año 2014 y ordenados
+-- de forma ascendente por código de cliente. Utilizar Alias y funciones Day, Month y Year.
+
+SELECT
+	B.NUM_BOLETA AS [NUMERO DE BOLETA],
+	B.ID_CLIENTE AS [CODIGO DE CLIENTE],
+	DAY(B.FECHA_EMI) AS [DIA DE VENTA],
+	MONTH(B.FECHA_EMI) AS [MES DE VENTA],
+	YEAR(B.FECHA_EMI) AS [AÑO DE VENTA]
+FROM BOLETA AS B
+WHERE YEAR(B.FECHA_EMI)>=2014
+ORDER BY B.ID_CLIENTE ASC
+
+
+-- 6. Script que permita mostrar la diferencia de valores entre la fecha de ingreso y la fecha actual
+-- obtenidas desde la tabla empleado con el siguiente formato:
+
+DECLARE @FECHA_ACTUAL DATE=GETDATE()
+
+SELECT
+	NOMBRES + ' ' + APELLIDOS AS [EMPLEADO],
+	 DATEDIFF(DAY, FECHA_INGRESO, @FECHA_ACTUAL) AS DIAS,
+	 DATEDIFF(MONTH, FECHA_INGRESO, @FECHA_ACTUAL) AS MESES,
+	 DATEDIFF(YEAR, FECHA_INGRESO, @FECHA_ACTUAL) AS [AÑOS],
+	 DATEDIFF(WEEK, FECHA_INGRESO, @FECHA_ACTUAL) AS SEMANAS
+FROM EMPLEADO
+
+
+-- 7. Script que permita mostrar todos los valores correspondientes al argumento que presenta la
+-- función DATEPART
+
+
+
+-- 8. Mostrar los campos nombres, cantidad de años de permanencia, dirección y cantidad de días
+-- (antigüedad) de la tabla empleado.
+
+
